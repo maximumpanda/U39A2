@@ -20,6 +20,7 @@ namespace Panda_Explorer {
 
         public Window(bool debugMode = false) {
             Settings.DpiScaling = GetScalingFactor();
+            Settings.EnableDebugger = debugMode;
             InitializeComponent();
 
             InitControls();
@@ -28,9 +29,9 @@ namespace Panda_Explorer {
             InitFrames();
             AssignEvents();
 
-            new MovementManager(this, TitleBar.LayoutTable);
+            
 
-            if (debugMode) InitDebugWindow();
+            InitDebugWindow();
         }
 
         private void AssignControlsToLayouts() {
@@ -44,7 +45,6 @@ namespace Panda_Explorer {
             MasterLayout.Controls.Add(ContentsLayout, 1, 2);
             Controls.Add(MasterLayout);
         }
-
         private void AssignEvents() {
             TreeView.NodeMouseClick += TreeViewOnNodeMouseClick;
             TreeView.SizeChanged += TreeViewOnSizeChanged;
@@ -107,12 +107,11 @@ namespace Panda_Explorer {
                 Margin = new Padding(0),
                 Padding = new Padding(0)
             };
-            TitleBar = new TitleBar {
+            TitleBar = new TitleBar(this) {
                 Dock = DockStyle.Top,
                 MaximumSize = new Size(0, 30),
                 MinimumSize = new Size(400, 30),
-                Name = "TitleBar",
-                Parent = MasterLayout
+                Name = "TitleBar"
             };
 
             ContentsLayout = new TableLayoutPanel {

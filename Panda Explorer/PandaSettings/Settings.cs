@@ -7,7 +7,7 @@ namespace Panda_Explorer.PandaSettings {
         internal static PandaColors Colors = new PandaColors();
         internal static SizeF DpiScaling = new SizeF(1f, 1f);
         internal static Font Font = SystemFonts.DefaultFont;
-        internal static bool ShowDebugger = true;
+        internal static bool EnableDebugger = true;
     }
 
     internal class PandaColors {

@@ -11,7 +11,7 @@ namespace Panda_Explorer.Core {
         internal static TableLayoutPanel OutputPanel;
 
         internal static void CreateDebugWindow(TableLayoutPanel parentPanel) {
-            if (Settings.ShowDebugger) {
+            if (Settings.EnableDebugger) {
                 OutputPanel = new TableLayoutPanel {
                     Parent = parentPanel,
                     Dock = DockStyle.Fill,

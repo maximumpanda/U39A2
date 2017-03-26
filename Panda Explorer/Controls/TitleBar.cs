@@ -6,7 +6,8 @@ using Settings = Panda_Explorer.PandaSettings.Settings;
 
 namespace Panda_Explorer.Controls {
     public partial class TitleBar : UserControl {
-        public TitleBar() {
+        public TitleBar(Control parent) {
+            Parent = parent;
             InitializeComponent();
             LayoutTable.Parent = this;
             LayoutTable.AutoSizeMode = AutoSizeMode.GrowAndShrink;
@@ -24,6 +25,8 @@ namespace Panda_Explorer.Controls {
                 if (ParentForm != null)
                     TitleLbl.Text = ParentForm.Name;
             };
+
+            new MovementManager(Parent, LayoutTable);
         }
 
         protected override void OnPaint(PaintEventArgs e) {

@@ -62,7 +62,6 @@
     <Compile Include="Controls\ControlButtons.Designer.cs">
       <DependentUpon>ControlButtons.cs</DependentUpon>
     </Compile>
-    <Compile Include="Core\ArrowFactory.cs" />
     <Compile Include="Core\Debugger.cs" />
     <Compile Include="Core\DirectoryCrawler.cs" />
     <Compile Include="Core\FrameManager.cs" />
