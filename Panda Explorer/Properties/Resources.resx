@@ -166,4 +166,8 @@
   <data name="NodeEmptyImageKey" xml:space="preserve">
     <value>blank</value>
   </data>
+  <data name="AccessDeniedRelaunchAdmin" xml:space="preserve">
+    <value>Access Denied.
+please restart as Administrator to view this Directory</value>
+  </data>
 </root>

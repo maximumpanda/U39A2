@@ -69,6 +69,16 @@ namespace Panda_Explorer.Core {
                         parent.Nodes.Add(node);
                     }
         }
+
+        internal void GetDirectoriesSafe(DirectoryInfo dir, TreeNode parent) {
+            try {
+                GetDirectories(dir.GetDirectories(), parent);
+            }
+            catch (UnauthorizedAccessException) {
+                MessageBox.Show(Resources.AccessDeniedRelaunchAdmin);
+            }
+
+        }
         public DirectoryInfo GetDirectoryInfo(TreeNode e) {
             return (DirectoryInfo) e.Tag;
         }
@@ -110,7 +120,7 @@ namespace Panda_Explorer.Core {
             TreeNode node = Nodes.Dequeue();
             DirectoryInfo info = (DirectoryInfo) node.Tag;
             if (info != null) {
-                GetDirectories(info.GetDirectories(), node);
+                GetDirectoriesSafe(info, node);
                 _dataManager.Refresh();
             }
         }
