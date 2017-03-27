@@ -77,7 +77,6 @@ namespace Panda_Explorer.Core {
             catch (UnauthorizedAccessException) {
                 MessageBox.Show(Resources.AccessDeniedRelaunchAdmin);
             }
-
         }
         public DirectoryInfo GetDirectoryInfo(TreeNode e) {
             return (DirectoryInfo) e.Tag;
@@ -86,11 +85,15 @@ namespace Panda_Explorer.Core {
         internal List<ListViewItem> GetListViewItemsThumbnail(TreeNode node) {
             List<ListViewItem> items = new List<ListViewItem>();
             if (node.Tag == null) return items;
-            DirectoryInfo info = (DirectoryInfo) node.Tag;
-            foreach (DirectoryInfo dirInfo in info.GetDirectories())
-                items.Add(GenerateListViewItem(dirInfo));
-            foreach (FileInfo fileInfo in info.GetFiles())
-                items.Add(GenerateListViewItem(fileInfo));
+            try {
+                DirectoryInfo info = (DirectoryInfo) node.Tag;
+                foreach (DirectoryInfo dirInfo in info.GetDirectories())
+                    items.Add(GenerateListViewItem(dirInfo));
+                foreach (FileInfo fileInfo in info.GetFiles())
+                    items.Add(GenerateListViewItem(fileInfo));
+            }
+            catch (UnauthorizedAccessException e) {
+            }
             return items;
         }
 

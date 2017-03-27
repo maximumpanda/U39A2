@@ -47,7 +47,6 @@
     <Compile Include="BitArray.cs" />
     <Compile Include="FileManager.cs" />
     <Compile Include="MorseCodeTranslater.cs" />
-    <Compile Include="NullableChar.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

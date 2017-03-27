@@ -29,8 +29,6 @@ namespace Panda_Explorer {
             InitFrames();
             AssignEvents();
 
-            
-
             InitDebugWindow();
         }
 
@@ -196,7 +194,7 @@ namespace Panda_Explorer {
         private void UpdateListViewOnNodeClick(object sender, TreeNodeMouseClickEventArgs e) {
             DataManager.GenerateListView(e.Node);
         }
-        
+
         // code taken from Farshid T on stack overflow
         // http://stackoverflow.com/a/21450169
         // Needed to find proper DPI Scaling as windows doesn't report this properly.

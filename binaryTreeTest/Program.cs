@@ -1,13 +1,13 @@
 ﻿using System;
 
-namespace binaryTreeTest
-{
-    public class Program
-    {
+namespace binaryTreeTest {
+    public class Program {
         public static void Main(string[] args) {
             MorseCodeTranslater translator = new MorseCodeTranslater();
 
-            string test = translator["T"] +  MorseCodeValues.CharacterSpacing + translator["E"] + MorseCodeValues.CharacterSpacing + translator["S"] + MorseCodeValues.CharacterSpacing + translator["T"];
+            string test = translator["T"] + MorseCodeValues.CharacterSpacing + translator["E"] +
+                          MorseCodeValues.CharacterSpacing + translator["S"] + MorseCodeValues.CharacterSpacing +
+                          translator["T"];
             string testtest = test + MorseCodeValues.WordSpacing + test;
 
             translator.ConvertFromMorse(test);
