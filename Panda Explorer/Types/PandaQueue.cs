@@ -6,6 +6,7 @@ namespace Panda_Explorer.Types {
         private readonly Queue<T> _queue = new Queue<T>();
 
         public int Count => _queue.Count;
+        public event EventHandler ItemAdded;
 
         public virtual T Dequeue() {
             return _queue.Dequeue();
@@ -15,6 +16,5 @@ namespace Panda_Explorer.Types {
             _queue.Enqueue(obj);
             ItemAdded?.Invoke(this, EventArgs.Empty);
         }
-        public event EventHandler ItemAdded;
     }
 }

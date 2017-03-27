@@ -4,10 +4,10 @@ using System.Windows.Forms;
 namespace Panda_Explorer.Core {
     internal class MovementManager {
         private bool _isDragging;
-        private readonly Window _parent;
-        private Point startingLoc;
+        private readonly Control _parent;
+        private Point _startingLoc;
 
-        public MovementManager(Window parent, Control client) {
+        public MovementManager(Control parent, Control client) {
             _parent = parent;
             client.MouseDown += MouseDown;
             client.MouseUp += MouseUp;
@@ -15,13 +15,13 @@ namespace Panda_Explorer.Core {
         }
 
         private Point CalculateOffset(Point newLoc) {
-            return new Point(newLoc.X - startingLoc.X, newLoc.Y - startingLoc.Y);
+            return new Point(newLoc.X - _startingLoc.X, newLoc.Y - _startingLoc.Y);
         }
 
         internal void MouseDown(object sender, MouseEventArgs args) {
             if (args.Button == MouseButtons.Left) {
                 _isDragging = true;
-                startingLoc = args.Location;
+                _startingLoc = args.Location;
             }
         }
 
@@ -38,7 +38,7 @@ namespace Panda_Explorer.Core {
         internal void MouseUp(object sender, MouseEventArgs args) {
             if (args.Button == MouseButtons.Left) {
                 _isDragging = false;
-                startingLoc = new Point();
+                _startingLoc = new Point();
             }
         }
     }

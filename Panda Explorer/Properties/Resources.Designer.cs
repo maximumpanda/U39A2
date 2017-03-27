@@ -61,6 +61,16 @@ namespace Panda_Explorer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Access Denied.
+        ///please restart as Administrator to view this Directory.
+        /// </summary>
+        internal static string AccessDeniedRelaunchAdmin {
+            get {
+                return ResourceManager.GetString("AccessDeniedRelaunchAdmin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap ArrowDown {

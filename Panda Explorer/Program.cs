@@ -10,7 +10,7 @@ namespace Panda_Explorer {
         private static void Main() {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Window(true));
+            Application.Run(new Window());
         }
     }
 }

@@ -6,8 +6,8 @@ namespace Panda_Explorer.PandaSettings {
         internal static int BorderSize = 6;
         internal static PandaColors Colors = new PandaColors();
         internal static SizeF DpiScaling = new SizeF(1f, 1f);
+        internal static bool EnableDebugger = true;
         internal static Font Font = SystemFonts.DefaultFont;
-        internal static bool ShowDebugger = true;
     }
 
     internal class PandaColors {

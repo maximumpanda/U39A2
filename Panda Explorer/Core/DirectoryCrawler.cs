@@ -69,6 +69,15 @@ namespace Panda_Explorer.Core {
                         parent.Nodes.Add(node);
                     }
         }
+
+        internal void GetDirectoriesSafe(DirectoryInfo dir, TreeNode parent) {
+            try {
+                GetDirectories(dir.GetDirectories(), parent);
+            }
+            catch (UnauthorizedAccessException) {
+                MessageBox.Show(Resources.AccessDeniedRelaunchAdmin);
+            }
+        }
         public DirectoryInfo GetDirectoryInfo(TreeNode e) {
             return (DirectoryInfo) e.Tag;
         }
@@ -76,11 +85,15 @@ namespace Panda_Explorer.Core {
         internal List<ListViewItem> GetListViewItemsThumbnail(TreeNode node) {
             List<ListViewItem> items = new List<ListViewItem>();
             if (node.Tag == null) return items;
-            DirectoryInfo info = (DirectoryInfo) node.Tag;
-            foreach (DirectoryInfo dirInfo in info.GetDirectories())
-                items.Add(GenerateListViewItem(dirInfo));
-            foreach (FileInfo fileInfo in info.GetFiles())
-                items.Add(GenerateListViewItem(fileInfo));
+            try {
+                DirectoryInfo info = (DirectoryInfo) node.Tag;
+                foreach (DirectoryInfo dirInfo in info.GetDirectories())
+                    items.Add(GenerateListViewItem(dirInfo));
+                foreach (FileInfo fileInfo in info.GetFiles())
+                    items.Add(GenerateListViewItem(fileInfo));
+            }
+            catch (UnauthorizedAccessException e) {
+            }
             return items;
         }
 
@@ -110,7 +123,7 @@ namespace Panda_Explorer.Core {
             TreeNode node = Nodes.Dequeue();
             DirectoryInfo info = (DirectoryInfo) node.Tag;
             if (info != null) {
-                GetDirectories(info.GetDirectories(), node);
+                GetDirectoriesSafe(info, node);
                 _dataManager.Refresh();
             }
         }

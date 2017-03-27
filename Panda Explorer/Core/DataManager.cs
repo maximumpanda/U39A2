@@ -11,6 +11,9 @@ namespace Panda_Explorer.Core {
         public List<ListViewItem> ListViewItems;
         public List<TreeNode> Nodes;
         private readonly DirectoryCrawler _crawler;
+        public event EventHandler ListViewItemsChanged;
+
+        public event EventHandler NodesChanged;
 
         public DataManager() {
             Groups = new List<string>();
@@ -44,7 +47,7 @@ namespace Panda_Explorer.Core {
             Groups.Add(Resources.Drives);
             foreach (string group in Groups) {
                 TreeNode newNode = new TreeNode(group) {
-                    Name = @group,
+                    Name = group,
                     ImageKey = Resources.NodeEmptyImageKey
                 };
                 Nodes.Add(newNode);
@@ -56,8 +59,5 @@ namespace Panda_Explorer.Core {
         public void UpdateNode(TreeNode node) {
             _crawler.Nodes.Enqueue(node);
         }
-
-        public event EventHandler NodesChanged;
-        public event EventHandler ListViewItemsChanged;
     }
 }

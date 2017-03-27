@@ -9,9 +9,10 @@ namespace Panda_Explorer.Core {
     internal static class Debugger {
         internal static Dictionary<string, string> DebugValues = new Dictionary<string, string>();
         internal static TableLayoutPanel OutputPanel;
+        internal static event EventHandler Updated;
 
         internal static void CreateDebugWindow(TableLayoutPanel parentPanel) {
-            if (Settings.ShowDebugger) {
+            if (Settings.EnableDebugger) {
                 OutputPanel = new TableLayoutPanel {
                     Parent = parentPanel,
                     Dock = DockStyle.Fill,
@@ -59,6 +60,5 @@ namespace Panda_Explorer.Core {
             else DebugValues.Add(key, value);
             Updated?.Invoke(null, EventArgs.Empty);
         }
-        internal static event EventHandler Updated;
     }
 }
