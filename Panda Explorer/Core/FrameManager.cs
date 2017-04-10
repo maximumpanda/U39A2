@@ -7,17 +7,17 @@ namespace Panda_Explorer.Core {
     internal class FrameManager {
         private readonly Rectangle[] _border = new Rectangle[8];
         private int _borderSize;
-        private bool _canRefresh = true;
-        private int _clickedFrame = -1;
-        private FrameFlags _flags;
-        private bool _isDragging;
-        private Control _parent;
-        private Timer _refreshTimer;
-        private Point _resizeStart;
         private bool _bottom;
         private bool _bottomLeft;
         private bool _bottomRight;
+        private bool _canRefresh = true;
+        private int _clickedFrame = -1;
+        private Flags _flags;
+        private bool _isDragging;
         private bool _left;
+        private Control _parent;
+        private Timer _refreshTimer;
+        private Point _resizeStart;
         private bool _right;
         private bool _top;
         private bool _topLeft;
@@ -28,7 +28,7 @@ namespace Panda_Explorer.Core {
             SetMouseEvents();
         }
 
-        public FrameManager(Control parent, FrameFlags flags) {
+        public FrameManager(Control parent, Flags flags) {
             SetParentEvents(parent, flags);
             SetMouseEvents();
         }
@@ -38,7 +38,7 @@ namespace Panda_Explorer.Core {
             // top left corner
             //
             if (_topLeft)
-                _border[FrameIndex.TopLeft] = new Rectangle {
+                _border[Indexes.TopLeft] = new Rectangle {
                     Location = new Point(0, 0),
                     Width = _borderSize,
                     Height = _borderSize
@@ -47,7 +47,7 @@ namespace Panda_Explorer.Core {
             // top right corner
             //
             if (_topRight)
-                _border[FrameIndex.TopRight] = new Rectangle {
+                _border[Indexes.TopRight] = new Rectangle {
                     Location = new Point(_parent.Bounds.Width - _borderSize, 0),
                     Width = _borderSize,
                     Height = _borderSize
@@ -56,7 +56,7 @@ namespace Panda_Explorer.Core {
             // bottom left corner
             //
             if (_bottomLeft)
-                _border[FrameIndex.BottomLeft] = new Rectangle {
+                _border[Indexes.BottomLeft] = new Rectangle {
                     Location = new Point(0, _parent.Height - _borderSize),
                     Height = _borderSize,
                     Width = _borderSize
@@ -65,7 +65,7 @@ namespace Panda_Explorer.Core {
             // bottom right
             //
             if (_bottomRight)
-                _border[FrameIndex.BottomRight] = new Rectangle {
+                _border[Indexes.BottomRight] = new Rectangle {
                     Location = new Point(_parent.Width - _borderSize, _parent.Height - _borderSize),
                     Height = _borderSize,
                     Width = _borderSize
@@ -74,9 +74,9 @@ namespace Panda_Explorer.Core {
             // top
             //
             if (_top)
-                _border[FrameIndex.Top] = new Rectangle {
-                    Location = new Point(_border[FrameIndex.TopLeft].Right, 0),
-                    Width = _parent.Width - (_border[FrameIndex.TopLeft].Width + _border[FrameIndex.TopRight].Width),
+                _border[Indexes.Top] = new Rectangle {
+                    Location = new Point(_border[Indexes.TopLeft].Right, 0),
+                    Width = _parent.Width - (_border[Indexes.TopLeft].Width + _border[Indexes.TopRight].Width),
                     Height = _borderSize
                 };
 
@@ -84,34 +84,34 @@ namespace Panda_Explorer.Core {
             // left
             //
             if (_left)
-                _border[FrameIndex.Left] = new Rectangle {
-                    Location = new Point(0, _border[FrameIndex.TopLeft].Height),
+                _border[Indexes.Left] = new Rectangle {
+                    Location = new Point(0, _border[Indexes.TopLeft].Height),
                     Width = _borderSize,
                     Height =
-                        _parent.Height - (_border[FrameIndex.TopLeft].Height + _border[FrameIndex.BottomLeft].Height)
+                        _parent.Height - (_border[Indexes.TopLeft].Height + _border[Indexes.BottomLeft].Height)
                 };
             //
             // right
             //
             if (_right) {
-                _border[FrameIndex.Right] = new Rectangle {
-                    Location = new Point(_parent.Width - _borderSize, 0 + _border[FrameIndex.TopRight].Height),
+                _border[Indexes.Right] = new Rectangle {
+                    Location = new Point(_parent.Width - _borderSize, 0 + _border[Indexes.TopRight].Height),
                     Width = _borderSize,
                     Height =
-                        _parent.Height - (_border[FrameIndex.TopRight].Height + _border[FrameIndex.BottomRight].Height)
+                        _parent.Height - (_border[Indexes.TopRight].Height + _border[Indexes.BottomRight].Height)
                 };
-                Debugger.Report(_parent.Name, _border[FrameIndex.Right].ToString());
+                Debugger.Report(_parent.Name, _border[Indexes.Right].ToString());
             }
 
             //
             // bottom
             //
             if (_bottom)
-                _border[FrameIndex.Bottom] = new Rectangle {
+                _border[Indexes.Bottom] = new Rectangle {
                     Location =
-                        new Point(0 + _border[FrameIndex.BottomLeft].Width, _parent.Height - _borderSize),
+                        new Point(0 + _border[Indexes.BottomLeft].Width, _parent.Height - _borderSize),
                     Width =
-                        _parent.Width - (_border[FrameIndex.BottomLeft].Width + _border[FrameIndex.BottomRight].Width),
+                        _parent.Width - (_border[Indexes.BottomLeft].Width + _border[Indexes.BottomRight].Width),
                     Height = _borderSize
                 };
             //
@@ -138,25 +138,25 @@ namespace Panda_Explorer.Core {
             return newBounds.X >= 0 && newBounds.Y >= 0 && newBounds.Width >= _parent.MinimumSize.Width &&
                    newBounds.Height >= _parent.MinimumSize.Height;
         }
-        private bool FlagIsSet(FrameFlags f) {
+        private bool FlagIsSet(Flags f) {
             return (_flags & f) == f;
         }
         private void ModifyCursor(int index) {
             switch (index) {
-                case FrameIndex.TopLeft:
-                case FrameIndex.BottomRight:
+                case Indexes.TopLeft:
+                case Indexes.BottomRight:
                     _parent.Cursor = Cursors.SizeNWSE;
                     break;
-                case FrameIndex.Top:
-                case FrameIndex.Bottom:
+                case Indexes.Top:
+                case Indexes.Bottom:
                     _parent.Cursor = Cursors.SizeNS;
                     break;
-                case FrameIndex.TopRight:
-                case FrameIndex.BottomLeft:
+                case Indexes.TopRight:
+                case Indexes.BottomLeft:
                     _parent.Cursor = Cursors.SizeNESW;
                     break;
-                case FrameIndex.Left:
-                case FrameIndex.Right:
+                case Indexes.Left:
+                case Indexes.Right:
                     _parent.Cursor = Cursors.SizeWE;
                     break;
                 default:
@@ -202,35 +202,35 @@ namespace Panda_Explorer.Core {
             Point offset = CalculateOffset(current);
             Rectangle newBounds = new Rectangle();
             switch (index) {
-                case FrameIndex.TopLeft:
+                case Indexes.TopLeft:
                     newBounds = new Rectangle(new Point(_parent.Bounds.X + offset.X, _parent.Bounds.Y + offset.Y),
                         new Size(_parent.Width - offset.X, _parent.Height - offset.Y));
                     break;
-                case FrameIndex.BottomRight:
+                case Indexes.BottomRight:
                     newBounds = new Rectangle(new Point(_parent.Bounds.X, _parent.Bounds.Y),
                         new Size(_parent.Width + offset.X, _parent.Height + offset.Y));
                     break;
-                case FrameIndex.Top:
+                case Indexes.Top:
                     newBounds = new Rectangle(new Point(_parent.Bounds.X, _parent.Bounds.Y + offset.Y),
                         new Size(_parent.Width, _parent.Height - offset.Y));
                     break;
-                case FrameIndex.Bottom:
+                case Indexes.Bottom:
                     newBounds = new Rectangle(new Point(_parent.Bounds.X, _parent.Bounds.Y),
                         new Size(_parent.Width, _parent.Height + offset.Y));
                     break;
-                case FrameIndex.TopRight:
+                case Indexes.TopRight:
                     newBounds = new Rectangle(new Point(_parent.Bounds.X, _parent.Bounds.Y + offset.Y),
                         new Size(_parent.Width + offset.X, _parent.Height - offset.Y));
                     break;
-                case FrameIndex.BottomLeft:
+                case Indexes.BottomLeft:
                     newBounds = new Rectangle(new Point(_parent.Bounds.X + offset.X, _parent.Bounds.Y),
                         new Size(_parent.Width - offset.X, _parent.Height + offset.Y));
                     break;
-                case FrameIndex.Left:
+                case Indexes.Left:
                     newBounds = new Rectangle(new Point(_parent.Bounds.X + offset.X, _parent.Bounds.Y),
                         new Size(_parent.Width - offset.X, _parent.Height));
                     break;
-                case FrameIndex.Right:
+                case Indexes.Right:
                     newBounds = new Rectangle(new Point(_parent.Bounds.X, _parent.Bounds.Y),
                         new Size(_parent.Width + offset.X, _parent.Height));
                     break;
@@ -246,46 +246,46 @@ namespace Panda_Explorer.Core {
             _parent.MouseUp += MouseUpFrame;
             _parent.MouseLeave += MouseLeaveFrame;
         }
-        private void SetParentEvents(Control parent, FrameFlags flags = FrameFlags.All) {
+        private void SetParentEvents(Control parent, Flags flags = Flags.All) {
             _borderSize = Settings.BorderSize * 2;
             _parent = parent;
             _parent.Paint += BuildBorder;
             _flags = flags;
-            _topLeft = FlagIsSet(FrameFlags.TopLeft);
-            _top = FlagIsSet(FrameFlags.Top);
-            _topRight = FlagIsSet(FrameFlags.TopRight);
-            _left = FlagIsSet(FrameFlags.Left);
-            _right = FlagIsSet(FrameFlags.Right);
-            _bottomLeft = FlagIsSet(FrameFlags.BottomLeft);
-            _bottom = FlagIsSet(FrameFlags.Bottom);
-            _bottomRight = FlagIsSet(FrameFlags.BottomRight);
+            _topLeft = FlagIsSet(Flags.TopLeft);
+            _top = FlagIsSet(Flags.Top);
+            _topRight = FlagIsSet(Flags.TopRight);
+            _left = FlagIsSet(Flags.Left);
+            _right = FlagIsSet(Flags.Right);
+            _bottomLeft = FlagIsSet(Flags.BottomLeft);
+            _bottom = FlagIsSet(Flags.Bottom);
+            _bottomRight = FlagIsSet(Flags.BottomRight);
         }
         public void UpdateBorderSize(int bordersize) {
             _borderSize = bordersize;
         }
-    }
 
-    [Flags]
-    public enum FrameFlags {
-        TopLeft = 1,
-        Top = 2,
-        TopRight = 4,
-        Left = 8,
-        Right = 16,
-        BottomLeft = 32,
-        Bottom = 64,
-        BottomRight = 128,
-        All = 255
-    }
+        [Flags]
+        public enum Flags {
+            TopLeft = 1,
+            Top = 2,
+            TopRight = 4,
+            Left = 8,
+            Right = 16,
+            BottomLeft = 32,
+            Bottom = 64,
+            BottomRight = 128,
+            All = 255
+        }
 
-    public static class FrameIndex {
-        public const int Bottom = 6;
-        public const int BottomLeft = 5;
-        public const int BottomRight = 7;
-        public const int Left = 3;
-        public const int Right = 4;
-        public const int Top = 1;
-        public const int TopLeft = 0;
-        public const int TopRight = 2;
+        public static class Indexes {
+            public const int Bottom = 6;
+            public const int BottomLeft = 5;
+            public const int BottomRight = 7;
+            public const int Left = 3;
+            public const int Right = 4;
+            public const int Top = 1;
+            public const int TopLeft = 0;
+            public const int TopRight = 2;
+        }
     }
 }

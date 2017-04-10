@@ -6,7 +6,8 @@ namespace binaryTreeTest {
             MorseCodeTranslater translator = new MorseCodeTranslater();
 
             string test = translator["T"] + MorseCodeTranslater.DefaultValues.CharacterSpacing + translator["E"] +
-                          MorseCodeTranslater.DefaultValues.CharacterSpacing + translator["S"] + MorseCodeTranslater.DefaultValues.CharacterSpacing +
+                          MorseCodeTranslater.DefaultValues.CharacterSpacing + translator["S"] +
+                          MorseCodeTranslater.DefaultValues.CharacterSpacing +
                           translator["T"];
             string testtest = test + MorseCodeTranslater.DefaultValues.WordSpacing + test;
 

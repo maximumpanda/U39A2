@@ -3,17 +3,6 @@ using System.Linq;
 
 namespace binaryTreeTest {
     public class MorseCodeTranslater {
-        public static class DefaultValues
-        {
-            public const string CharacterSpacing = "   ";
-            public static readonly string[] DefaultTranslations = {
-                "A01", "B1000", "C1010", "D100", "E0", "F0010",
-                "G110", "H0000", "I00", "J0111", "K101", "L0100",
-                "M11", "N10", "O111", "P0110", "Q1101", "R010", "S000",
-                "T1", "U001", "V0001", "W011", "X1001", "Y1011", "Z1100"
-            };
-            public const string WordSpacing = "       ";
-        }
         private readonly BinaryTree<string> _tree;
         public string this[string value] => _tree.Root.Search(value.ToUpper(), null).ToString();
 
@@ -58,5 +47,16 @@ namespace binaryTreeTest {
                 (current, s) => current + ConvertCharToMorse(s.ToString()) + DefaultValues.CharacterSpacing);
             return result.Length > 0 ? result.Remove(result.Length - DefaultValues.CharacterSpacing.Length) : result;
         }
-    }   
+
+        public static class DefaultValues {
+            public const string CharacterSpacing = "   ";
+            public static readonly string[] DefaultTranslations = {
+                "A01", "B1000", "C1010", "D100", "E0", "F0010",
+                "G110", "H0000", "I00", "J0111", "K101", "L0100",
+                "M11", "N10", "O111", "P0110", "Q1101", "R010", "S000",
+                "T1", "U001", "V0001", "W011", "X1001", "Y1011", "Z1100"
+            };
+            public const string WordSpacing = "       ";
+        }
+    }
 }

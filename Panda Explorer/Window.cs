@@ -170,7 +170,7 @@ namespace Panda_Explorer {
         }
         private void InitFrames() {
             new FrameManager(this);
-            new FrameManager(_treeViewPanel, FrameFlags.Right);
+            new FrameManager(_treeViewPanel, FrameManager.Flags.Right);
         }
         protected override void OnLoad(EventArgs e) {
             Scale(Settings.DpiScaling);

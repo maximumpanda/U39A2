@@ -24,12 +24,13 @@ namespace Panda_Explorer.Controls {
         }
 
         private void MouseClickExitBtn(object sender, MouseEventArgs e) {
-            ParentForm.Close();
+            ParentForm?.Close();
         }
         private void MouseClickMinimizeBtn(object sender, MouseEventArgs e) {
-            ParentForm.WindowState = FormWindowState.Minimized;
+            if (ParentForm != null) ParentForm.WindowState = FormWindowState.Minimized;
         }
         private void MouseClickMinMaxBtn(object sender, MouseEventArgs e) {
+            if (ParentForm == null) return;
             ParentForm.WindowState = IsMaximized ? FormWindowState.Normal : FormWindowState.Maximized;
             IsMaximized = !IsMaximized;
         }

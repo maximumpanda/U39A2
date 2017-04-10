@@ -5,14 +5,15 @@ namespace binaryTreeTest {
         private BinaryNode<T> _falseNode;
         private BinaryNode<T> _trueNode;
 
-        public BinaryNode<T> FalseNode(T val = null) => InitOrReturnNode(val, false);
-        public BinaryNode<T> TrueNode(T val = null) => InitOrReturnNode(val, true);
-
         public BinaryNode<T> this[bool val] => val ? TrueNode() : FalseNode();
         public T Value { get; set; }
 
         public BinaryNode(T value) {
             Value = value;
+        }
+
+        public BinaryNode<T> FalseNode(T val = null) {
+            return InitOrReturnNode(val, false);
         }
 
         private BinaryNode<T> InitOrReturnNode(T val, bool truefalse) {
@@ -39,6 +40,9 @@ namespace binaryTreeTest {
             newKey[newKey.Count - 1] = false;
             res = _falseNode?.Search(value, newKey);
             return res;
+        }
+        public BinaryNode<T> TrueNode(T val = null) {
+            return InitOrReturnNode(val, true);
         }
     }
 }

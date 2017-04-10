@@ -23,7 +23,8 @@ namespace binaryTreeTest {
         }
         public static Dictionary<string, BitArray> ReadTranslationFile(string path) {
             Dictionary<string, BitArray> translations = new Dictionary<string, BitArray>();
-            if (!File.Exists("EN.txt")) File.WriteAllLines("EN.txt", MorseCodeTranslater.DefaultValues.DefaultTranslations);
+            if (!File.Exists("EN.txt"))
+                File.WriteAllLines("EN.txt", MorseCodeTranslater.DefaultValues.DefaultTranslations);
             using (StreamReader reader = new StreamReader(File.Open(path, FileMode.Open))) {
                 while (!reader.EndOfStream) {
                     Tuple<string, BitArray> res = ReadTranslation(reader);
