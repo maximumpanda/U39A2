@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Globalization;
 using System.Windows.Forms;
 using Panda_Explorer.Core;
 using Panda_Explorer.Properties;
@@ -31,15 +32,8 @@ namespace Panda_Explorer.Controls {
 
         protected override void OnPaint(PaintEventArgs e) {
             TitleLbl.Font = new Font("Microsoft Sans Serif", 8 * Settings.DpiScaling.Width);
-            Debugger.Report("Font", TitleLbl.Font.Size.ToString());
+            Debugger.Report("Font", TitleLbl.Font.Size.ToString(CultureInfo.InvariantCulture));
             base.OnPaint(e);
-        }
-
-        private void ResizeIcon() {
-            if (Icon.Image == null) return;
-            Icon.Size = new Size(Height, Height);
-            Icon.Image = new Bitmap(Icon.Image, Icon.Image.Size);
-            Debugger.Report("iconSize", Icon.Size.ToString());
         }
     }
 }

@@ -12,7 +12,6 @@ namespace Panda_Explorer.Core {
         public List<TreeNode> Nodes;
         private readonly DirectoryCrawler _crawler;
         public event EventHandler ListViewItemsChanged;
-
         public event EventHandler NodesChanged;
 
         public DataManager() {
@@ -32,17 +31,14 @@ namespace Panda_Explorer.Core {
                 Nodes.First(x => x.Name == Resources.Drives).Nodes.Add(node);
             }
         }
-
         public void GenerateListView(TreeNode e) {
             ListViewItems.Clear();
             ListViewItems = _crawler.GetListViewItemsThumbnail(e);
             ListViewItemsChanged?.Invoke(ListViewItems, EventArgs.Empty);
         }
-
         public void Refresh() {
             NodesChanged?.Invoke(Nodes, EventArgs.Empty);
         }
-
         public void SeedNodes() {
             Groups.Add(Resources.Drives);
             foreach (string group in Groups) {
@@ -55,7 +51,6 @@ namespace Panda_Explorer.Core {
             }
             GenerateDrives();
         }
-
         public void UpdateNode(TreeNode node) {
             _crawler.Nodes.Enqueue(node);
         }

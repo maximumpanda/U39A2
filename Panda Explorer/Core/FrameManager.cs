@@ -14,15 +14,15 @@ namespace Panda_Explorer.Core {
         private Control _parent;
         private Timer _refreshTimer;
         private Point _resizeStart;
-        private bool Bottom;
-        private bool BottomLeft;
-        private bool BottomRight;
-        private bool Left;
-        private bool Right;
-        private bool Top;
+        private bool _bottom;
+        private bool _bottomLeft;
+        private bool _bottomRight;
+        private bool _left;
+        private bool _right;
+        private bool _top;
+        private bool _topLeft;
+        private bool _topRight;
 
-        private bool TopLeft;
-        private bool TopRight;
         public FrameManager(Control parent) {
             SetParentEvents(parent);
             SetMouseEvents();
@@ -37,7 +37,7 @@ namespace Panda_Explorer.Core {
             //
             // top left corner
             //
-            if (TopLeft)
+            if (_topLeft)
                 _border[FrameIndex.TopLeft] = new Rectangle {
                     Location = new Point(0, 0),
                     Width = _borderSize,
@@ -46,7 +46,7 @@ namespace Panda_Explorer.Core {
             //
             // top right corner
             //
-            if (TopRight)
+            if (_topRight)
                 _border[FrameIndex.TopRight] = new Rectangle {
                     Location = new Point(_parent.Bounds.Width - _borderSize, 0),
                     Width = _borderSize,
@@ -55,7 +55,7 @@ namespace Panda_Explorer.Core {
             //
             // bottom left corner
             //
-            if (BottomLeft)
+            if (_bottomLeft)
                 _border[FrameIndex.BottomLeft] = new Rectangle {
                     Location = new Point(0, _parent.Height - _borderSize),
                     Height = _borderSize,
@@ -64,7 +64,7 @@ namespace Panda_Explorer.Core {
             //
             // bottom right
             //
-            if (BottomRight)
+            if (_bottomRight)
                 _border[FrameIndex.BottomRight] = new Rectangle {
                     Location = new Point(_parent.Width - _borderSize, _parent.Height - _borderSize),
                     Height = _borderSize,
@@ -73,7 +73,7 @@ namespace Panda_Explorer.Core {
             //
             // top
             //
-            if (Top)
+            if (_top)
                 _border[FrameIndex.Top] = new Rectangle {
                     Location = new Point(_border[FrameIndex.TopLeft].Right, 0),
                     Width = _parent.Width - (_border[FrameIndex.TopLeft].Width + _border[FrameIndex.TopRight].Width),
@@ -83,7 +83,7 @@ namespace Panda_Explorer.Core {
             //
             // left
             //
-            if (Left)
+            if (_left)
                 _border[FrameIndex.Left] = new Rectangle {
                     Location = new Point(0, _border[FrameIndex.TopLeft].Height),
                     Width = _borderSize,
@@ -93,7 +93,7 @@ namespace Panda_Explorer.Core {
             //
             // right
             //
-            if (Right) {
+            if (_right) {
                 _border[FrameIndex.Right] = new Rectangle {
                     Location = new Point(_parent.Width - _borderSize, 0 + _border[FrameIndex.TopRight].Height),
                     Width = _borderSize,
@@ -106,7 +106,7 @@ namespace Panda_Explorer.Core {
             //
             // bottom
             //
-            if (Bottom)
+            if (_bottom)
                 _border[FrameIndex.Bottom] = new Rectangle {
                     Location =
                         new Point(0 + _border[FrameIndex.BottomLeft].Width, _parent.Height - _borderSize),
@@ -126,7 +126,6 @@ namespace Panda_Explorer.Core {
                 }
             }*/
         }
-
         private Point CalculateOffset(Point current) {
             return new Point(current.X - _resizeStart.X, current.Y - _resizeStart.Y);
         }
@@ -135,16 +134,13 @@ namespace Panda_Explorer.Core {
                 if (_border[i].Contains(position)) return i;
             return -1;
         }
-
         private bool CheckResize(Rectangle newBounds) {
             return newBounds.X >= 0 && newBounds.Y >= 0 && newBounds.Width >= _parent.MinimumSize.Width &&
                    newBounds.Height >= _parent.MinimumSize.Height;
         }
-
         private bool FlagIsSet(FrameFlags f) {
             return (_flags & f) == f;
         }
-
         private void ModifyCursor(int index) {
             switch (index) {
                 case FrameIndex.TopLeft:
@@ -169,7 +165,6 @@ namespace Panda_Explorer.Core {
             }
             Application.DoEvents();
         }
-
         private void MouseDownFrame(object sender, MouseEventArgs args) {
             int frameCheck = CheckFrameMouseCollision(args.Location);
             if (args.Button == MouseButtons.Left && frameCheck != -1) {
@@ -182,12 +177,10 @@ namespace Panda_Explorer.Core {
                 _refreshTimer.Start();
             }
         }
-
         private void MouseLeaveFrame(object sender, EventArgs args) {
             if (!_isDragging)
                 _parent.Cursor = Cursors.Default;
         }
-
         private void MouseMoveFrame(object sender, MouseEventArgs args) {
             if (_canRefresh)
                 if (_isDragging) {
@@ -198,7 +191,6 @@ namespace Panda_Explorer.Core {
                     ModifyCursor(collisionIndex);
                 }
         }
-
         private void MouseUpFrame(object sender, MouseEventArgs args) {
             if (args.Button == MouseButtons.Left) {
                 _isDragging = false;
@@ -206,7 +198,6 @@ namespace Panda_Explorer.Core {
                 _refreshTimer?.Dispose();
             }
         }
-
         private void ResizeFrame(int index, Point current) {
             Point offset = CalculateOffset(current);
             Rectangle newBounds = new Rectangle();
@@ -249,29 +240,26 @@ namespace Panda_Explorer.Core {
                 _resizeStart = current;
             }
         }
-
         private void SetMouseEvents() {
             _parent.MouseMove += MouseMoveFrame;
             _parent.MouseDown += MouseDownFrame;
             _parent.MouseUp += MouseUpFrame;
             _parent.MouseLeave += MouseLeaveFrame;
         }
-
         private void SetParentEvents(Control parent, FrameFlags flags = FrameFlags.All) {
             _borderSize = Settings.BorderSize * 2;
             _parent = parent;
             _parent.Paint += BuildBorder;
             _flags = flags;
-            TopLeft = FlagIsSet(FrameFlags.TopLeft);
-            Top = FlagIsSet(FrameFlags.Top);
-            TopRight = FlagIsSet(FrameFlags.TopRight);
-            Left = FlagIsSet(FrameFlags.Left);
-            Right = FlagIsSet(FrameFlags.Right);
-            BottomLeft = FlagIsSet(FrameFlags.BottomLeft);
-            Bottom = FlagIsSet(FrameFlags.Bottom);
-            BottomRight = FlagIsSet(FrameFlags.BottomRight);
+            _topLeft = FlagIsSet(FrameFlags.TopLeft);
+            _top = FlagIsSet(FrameFlags.Top);
+            _topRight = FlagIsSet(FrameFlags.TopRight);
+            _left = FlagIsSet(FrameFlags.Left);
+            _right = FlagIsSet(FrameFlags.Right);
+            _bottomLeft = FlagIsSet(FrameFlags.BottomLeft);
+            _bottom = FlagIsSet(FrameFlags.Bottom);
+            _bottomRight = FlagIsSet(FrameFlags.BottomRight);
         }
-
         public void UpdateBorderSize(int bordersize) {
             _borderSize = bordersize;
         }

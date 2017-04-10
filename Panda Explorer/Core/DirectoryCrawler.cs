@@ -18,8 +18,7 @@ namespace Panda_Explorer.Core {
 
         private ListViewItem GenerateListViewItem(DirectoryInfo dir) {
             try {
-                ListViewItem item = new ListViewItem(dir.Name, 0);
-                item.ImageKey = Resources.DefaultNodeImageKey;
+                ListViewItem item = new ListViewItem(dir.Name, 0) {ImageKey = Resources.DefaultNodeImageKey};
                 item.ImageKey = IconManager.DetermineIconKey(dir.FullName);
                 ListViewItem.ListViewSubItem[] subItems = {
                     new ListViewItem.ListViewSubItem(item,
@@ -32,14 +31,14 @@ namespace Panda_Explorer.Core {
                 return item;
             }
             catch {
+                // ignored
             }
             return null;
         }
 
         public ListViewItem GenerateListViewItem(FileInfo info) {
             try {
-                ListViewItem item = new ListViewItem(info.Name, 1);
-                item.ImageKey = Path.GetExtension(info.Name);
+                ListViewItem item = new ListViewItem(info.Name, 1) {ImageKey = Path.GetExtension(info.Name)};
                 item.ImageKey = IconManager.DetermineIconKey(info.FullName);
                 ListViewItem.ListViewSubItem[] subItems = {
                     new ListViewItem.ListViewSubItem(item, info.LastAccessTime.ToLongTimeString()),
@@ -50,6 +49,7 @@ namespace Panda_Explorer.Core {
                 return item;
             }
             catch (Exception) {
+                // ignored
             }
             return null;
         }
@@ -92,7 +92,7 @@ namespace Panda_Explorer.Core {
                 foreach (FileInfo fileInfo in info.GetFiles())
                     items.Add(GenerateListViewItem(fileInfo));
             }
-            catch (UnauthorizedAccessException e) {
+            catch (UnauthorizedAccessException) {
             }
             return items;
         }

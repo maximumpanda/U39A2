@@ -26,31 +26,25 @@ namespace Panda_Explorer.Controls {
         private void MouseClickExitBtn(object sender, MouseEventArgs e) {
             ParentForm.Close();
         }
-
         private void MouseClickMinimizeBtn(object sender, MouseEventArgs e) {
             ParentForm.WindowState = FormWindowState.Minimized;
         }
-
         private void MouseClickMinMaxBtn(object sender, MouseEventArgs e) {
             ParentForm.WindowState = IsMaximized ? FormWindowState.Normal : FormWindowState.Maximized;
             IsMaximized = !IsMaximized;
         }
-
         private void MouseEnterControlButton(object sender, EventArgs e) {
             ((PictureBox) sender).BackColor = Settings.Colors.Highlight;
         }
-
         private void MouseLeaveControlButton(object sender, EventArgs e) {
             ((PictureBox) sender).BackColor = Settings.Colors.TitleBackground;
         }
-
         protected override void OnLoad(EventArgs e) {
             base.OnLoad(e);
             ExitBtn.Image = ResizeImage(Resources.Exit);
             MinMaxButn.Image = ResizeImage(Resources.MaxMin);
             MinimizeBtn.Image = ResizeImage(Resources.Minimize);
         }
-
         protected override void OnPaint(PaintEventArgs e) {
             base.OnPaint(e);
             Layout1.Size = new Size(Parent.Height * 3, Parent.Height);
@@ -58,7 +52,6 @@ namespace Panda_Explorer.Controls {
             MinMaxButn.Size = new Size(Height, Height);
             MinimizeBtn.Size = new Size(Height, Height);
         }
-
         private Bitmap ResizeImage(Bitmap image) {
             Bitmap bitmap = new Bitmap(image,
                 new Size((int) (image.Width + image.Width * Settings.DpiScaling.Width) / 2,

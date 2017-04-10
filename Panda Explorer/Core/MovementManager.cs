@@ -13,18 +13,15 @@ namespace Panda_Explorer.Core {
             client.MouseUp += MouseUp;
             client.MouseMove += MouseMove;
         }
-
         private Point CalculateOffset(Point newLoc) {
             return new Point(newLoc.X - _startingLoc.X, newLoc.Y - _startingLoc.Y);
         }
-
         internal void MouseDown(object sender, MouseEventArgs args) {
             if (args.Button == MouseButtons.Left) {
                 _isDragging = true;
                 _startingLoc = args.Location;
             }
         }
-
         internal void MouseMove(object sender, MouseEventArgs args) {
             if (_isDragging) {
                 Point origin = _parent.Location;
@@ -34,7 +31,6 @@ namespace Panda_Explorer.Core {
                     if (s.Bounds.Contains(newLoc)) _parent.Location = newLoc;
             }
         }
-
         internal void MouseUp(object sender, MouseEventArgs args) {
             if (args.Button == MouseButtons.Left) {
                 _isDragging = false;

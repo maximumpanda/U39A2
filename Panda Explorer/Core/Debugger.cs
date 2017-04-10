@@ -30,7 +30,6 @@ namespace Panda_Explorer.Core {
                 Updated += DebugUpdated;
             }
         }
-
         private static void DebugUpdated(object sender, EventArgs e) {
             for (int i = 0; i < DebugValues.Count; i++)
                 if (OutputPanel.Controls.ContainsKey(DebugValues.ElementAt(i).Key))
@@ -38,23 +37,22 @@ namespace Panda_Explorer.Core {
                 else OutputPanel.Controls.Add(GenerateNewDebugLabel(i));
         }
         private static Label GenerateNewDebugLabel(int i) {
-            Label newLabel = new Label();
-            newLabel.Name = $"{DebugValues.ElementAt(i).Key}";
-            newLabel.Dock = DockStyle.Fill;
-            newLabel.Text = GenerateOutput(i);
+            Label newLabel = new Label {
+                Name = $"{DebugValues.ElementAt(i).Key}",
+                Dock = DockStyle.Fill,
+                Text = GenerateOutput(i)
+            };
             return newLabel;
         }
-
         internal static string GenerateOutput(int index) {
             return $"{DebugValues.ElementAt(index).Key}: {DebugValues.ElementAt(index).Value}";
         }
         internal static void Report(string value) {
-            string MethodName = new StackFrame(1).GetMethod().Name;
-            if (DebugValues.ContainsKey(MethodName)) DebugValues[MethodName] = value;
-            else DebugValues.Add(MethodName, value);
+            string methodName = new StackFrame(1).GetMethod().Name;
+            if (DebugValues.ContainsKey(methodName)) DebugValues[methodName] = value;
+            else DebugValues.Add(methodName, value);
             Updated?.Invoke(null, EventArgs.Empty);
         }
-
         internal static void Report(string key, string value) {
             if (DebugValues.ContainsKey(key)) DebugValues[key] = value;
             else DebugValues.Add(key, value);
