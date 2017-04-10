@@ -15,7 +15,6 @@ namespace Panda_Explorer {
         internal TableLayoutPanel MasterLayout;
         internal TitleBar TitleBar;
         internal TreeView TreeView;
-
         private Panel _treeViewPanel;
 
         public Window(bool debugMode = false) {
@@ -90,7 +89,6 @@ namespace Panda_Explorer {
 
             return new SizeF(screenScalingFactor, screenScalingFactor); // 1.25 = 125%
         }
-
         private void InitControls() {
             Padding = new Padding(Settings.BorderSize);
             MinimumSize = new Size(600, 400);
@@ -161,7 +159,6 @@ namespace Panda_Explorer {
             ListView.Columns.Add("Size");
             SetWindowTheme(TreeView.Handle, "explorer", null);
         }
-
         private void InitDataManager() {
             DataManager = new DataManager();
             DataManager.NodesChanged += DataManagerOnNodesChanged;
@@ -171,12 +168,10 @@ namespace Panda_Explorer {
             Debugger.CreateDebugWindow(ContentsLayout);
             //ContentsLayout.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
         }
-
         private void InitFrames() {
             new FrameManager(this);
             new FrameManager(_treeViewPanel, FrameFlags.Right);
         }
-
         protected override void OnLoad(EventArgs e) {
             Scale(Settings.DpiScaling);
             TitleBar.Icon.Image = new Bitmap(Resources.PandaExplorer, TitleBar.Icon.Height, TitleBar.Icon.Height);
