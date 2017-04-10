@@ -2,7 +2,6 @@
 
 namespace binaryTreeTest {
     public class BinaryNode<T> where T : class {
-        private static int _currentIndex = -1;
         private BinaryNode<T> _falseNode;
         private BinaryNode<T> _trueNode;
 
@@ -12,7 +11,9 @@ namespace binaryTreeTest {
         public BinaryNode(T value) {
             Value = value;
         }
-        public BinaryNode<T> FalseNode(T val = null) => InitOrReturnNode(val, false);
+        public BinaryNode<T> FalseNode(T val = null) {
+            return InitOrReturnNode(val, false);
+        }
         private BinaryNode<T> InitOrReturnNode(T val, bool truefalse) {
             if (val == null) {
                 if (truefalse) return _trueNode ?? (_trueNode = new BinaryNode<T>(null));
@@ -24,13 +25,12 @@ namespace binaryTreeTest {
             return newNode;
         }
 
-        public T Search(BitArray binary) {
-            if (++_currentIndex != binary.Count)
-                return binary[_currentIndex] ? _trueNode?.Search(binary) : _falseNode?.Search(binary);
-            _currentIndex = -1;
+        public T Search(BitArray binary, int index = -1) {
+            if (++index != binary.Count)
+                return binary[index] ? _trueNode?.Search(binary, index) : _falseNode?.Search(binary, index);
             return Value;
         }
-        public BitArray Search(T value, BitArray key = null) {
+        public BitArray Search(T value, BitArray key) {
             if (EqualityComparer<T>.Default.Equals(Value, value)) return key;
             BitArray newKey = new BitArray(key);
             newKey.Add(true);
@@ -41,6 +41,8 @@ namespace binaryTreeTest {
             return res;
         }
 
-        public BinaryNode<T> TrueNode(T val = null) => InitOrReturnNode(val, true);
+        public BinaryNode<T> TrueNode(T val = null) {
+            return InitOrReturnNode(val, true);
+        }
     }
 }

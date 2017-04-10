@@ -9,13 +9,12 @@ namespace binaryTreeTest {
                           MorseCodeValues.CharacterSpacing + translator["S"] + MorseCodeValues.CharacterSpacing +
                           translator["T"];
             string testtest = test + MorseCodeValues.WordSpacing + test;
-
-            translator.ConvertFromMorse(test);
-            translator.ConvertFromMorse(testtest);
-            Console.WriteLine(testtest);
+            Console.WriteLine(translator.ConvertFromMorse(test));
+            Console.WriteLine(translator.ConvertFromMorse(testtest));
             string result = translator.ConvertToMorse("Test Test");
             Console.WriteLine(result);
-            translator.ConvertFromMorse(result);
+            Console.WriteLine(translator.ConvertFromMorse(result));
+            Console.WriteLine("enter any text to convert to morse");
             while (true) {
                 result = Console.ReadLine();
                 if (result != null && result.ToLower() == "exit") break;

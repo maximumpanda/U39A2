@@ -7,8 +7,8 @@ namespace binaryTreeTest {
         public int Count => _bits.Count;
 
         public bool this[int id] {
-            get { return _bits[id]; }
-            set { _bits[id] = value; }
+            get => _bits[id];
+            set => _bits[id] = value;
         }
 
         public BitArray() {
